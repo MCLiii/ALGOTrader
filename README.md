@@ -1,1 +1,3 @@
 # ALGOTrade
+
+- Skeleton
