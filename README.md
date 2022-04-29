@@ -1,3 +1,3 @@
-# ALGOTrade
+# ALGOTrading
 
 - under construction
