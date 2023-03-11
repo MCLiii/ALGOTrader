@@ -1,0 +1,34 @@
+Mingcan Mar 10, 23 edit
+
+The DataSource is responsible for making 2 types of operation
+1. Data Gathering
+    Objects for this functionality should be an inheritance of the interface DataSource.h, this helps with future
+    extension of the program.
+
+    Technical Planning:
+        Calling APIs of stock exchange and collect data.
+        Store the data into dataframes labeled by ordered index.
+        Each struct within the data frame contains the open and close time, open price, close price and volume.
+        Time should be kept in unix timestamp format
+
+        Potential setters:
+            Set ticker symbol
+            Set time frame, in seconds?
+            Set duration into past
+
+        Potential getters:
+            a bool to indicate if the dataframe is ready
+            a Dataframe containing data that's been queried
+            a function to get the current price of the market
+
+        other functionalities
+            live update of the price?
+            need an error handler class and each DataSource class should provide translation for errorcodes from API
+
+        Issues to solve:
+            if the ticker symbol change, what do we do with the data?
+            If time frame or duration change how should we update the data?
+
+2. Generating indicators
+    For generating the indicators such as MA, EMA, MACD, consider making multiple classes for different categories of
+    Stock indicators
