@@ -13,20 +13,20 @@
 #include <DataFrame/DataFrameStatsVisitors.h>  // Statistical algorithms
 #include <DataFrame/Utils/DateTime.h>  // Cool and handy date-time object
 /**
- * a interface for standardizing data sourcing functions
+ * an interface for standardizing data sourcing functions
  */
 
 using namespace hmdf;
+using namespace std;
 
-using DTDataFrame = StdDataFrame<DateTime>;
+using TDF = StdDataFrame<int>;
 
 class DataSource {
-    struct DataForm {
-        long long openTime;
-        long long closeTime;
-        int open;
-        int close;
-    };
-
-
+public:
+    virtual bool setTickerSymbol(string Symbol) = 0;
+    virtual void setTimeFrame(int sec) = 0;
+    virtual void setHistoryLen(int min) = 0;
+    virtual bool dataReady() = 0;
+    virtual TDF getDataFrame() = 0;
+    virtual int getCurrentPrice() = 0;
 };

@@ -8,7 +8,7 @@ The DataSource is responsible for making 2 types of operation
     Technical Planning:
         Calling APIs of stock exchange and collect data.
         Store the data into dataframes labeled by ordered index.
-        Each struct within the data frame contains the open and close time, open price, close price and volume.
+        Each data within the data frame is a class that contains the open and close time, open price, close price and volume.
         Time should be kept in unix timestamp format
 
         Potential setters:

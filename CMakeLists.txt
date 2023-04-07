@@ -5,6 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 find_package(DataFrame REQUIRED)
 
-add_executable(ALGOTrading main.cpp DataProcessing/DataSource.h)
+add_executable(ALGOTrading main.cpp DataProcessing/DataSource.h DataProcessing/DataPoints.h)
 
 target_link_libraries(ALGOTrading DataFrame::DataFrame)
