@@ -29,6 +29,9 @@ The DataSource is responsible for making 2 types of operation
             if the ticker symbol change, what do we do with the data?
             If time frame or duration change how should we update the data?
 
+        Backlog:
+            Separate communication class for future implementation
+
 2. Generating indicators
     For generating the indicators such as MA, EMA, MACD, consider making multiple classes for different categories of
     Stock indicators

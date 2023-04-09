@@ -12,6 +12,9 @@
 #include <DataFrame/DataFrameMLVisitors.h>  // Machine-learning algorithms
 #include <DataFrame/DataFrameStatsVisitors.h>  // Statistical algorithms
 #include <DataFrame/Utils/DateTime.h>  // Cool and handy date-time object
+#include <QObject>
+#include <QtNetwork>
+
 /**
  * an interface for standardizing data sourcing functions
  */
@@ -21,12 +24,15 @@ using namespace std;
 
 using TDF = StdDataFrame<int>;
 
-class DataSource {
+class DataSource : public QObject{
+    Q_OBJECT
 public:
     virtual bool setTickerSymbol(string Symbol) = 0;
     virtual void setTimeFrame(int sec) = 0;
     virtual void setHistoryLen(int min) = 0;
-    virtual bool dataReady() = 0;
-    virtual TDF getDataFrame() = 0;
+    virtual bool dataReady() = 0;   //to indicate that the data set is ready to query
+    virtual TDF* getDataFrame() = 0;
     virtual int getCurrentPrice() = 0;
+public slots:
+    virtual void readReply(QNetworkReply* reply) {};
 };
