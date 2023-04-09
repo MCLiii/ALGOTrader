@@ -27,12 +27,13 @@ using TDF = StdDataFrame<int>;
 class DataSource : public QObject{
     Q_OBJECT
 public:
-    virtual bool setTickerSymbol(string Symbol) = 0;
-    virtual void setTimeFrame(int sec) = 0;
-    virtual void setHistoryLen(int min) = 0;
+    virtual bool setTickerSymbol(string Symbol, ...) = 0;
+    virtual void setSampleFreq(int min) = 0;
+    virtual void setHistoryLen(int days) = 0;
     virtual bool dataReady() = 0;   //to indicate that the data set is ready to query
     virtual TDF* getDataFrame() = 0;
     virtual int getCurrentPrice() = 0;
+    virtual void startLive() = 0;
 public slots:
     virtual void readReply(QNetworkReply* reply) {};
 };
