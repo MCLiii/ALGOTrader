@@ -27,7 +27,7 @@ using TDF = StdDataFrame<int>;
 class DataSource : public QObject{
     Q_OBJECT
 public:
-    virtual bool setTickerSymbol(string Symbol, ...) = 0;
+    virtual bool setTickerSymbol(string symbol, vector<string> params) = 0;
     virtual void setSampleFreq(int min) = 0;
     virtual void setHistoryLen(int days) = 0;
     virtual bool dataReady() = 0;   //to indicate that the data set is ready to query

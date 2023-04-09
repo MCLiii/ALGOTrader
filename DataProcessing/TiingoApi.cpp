@@ -21,11 +21,7 @@ public:
         connect(manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(readReply(QNetworkReply*)));
         manager->get(request);
         int retries = 0;
-        while (!dr && retries < 100) {
-            QCoreApplication::processEvents();
-            usleep(50000);
-            retries++;
-        }
+        waitForData();
         if (dr) {
             if (rep.contains("success")) {
                 qDebug() << "Success";
@@ -43,9 +39,37 @@ public:
 
     }
 
-    bool setTickerSymbol(string Symbol, ...) override {
-        va_list args;
-        va_start(args, Symbol);
+    bool setTickerSymbol(string symbol, vector<string> params) override {
+        symbol = symbol;
+        if(subDir == "" && params.size() < 1) {
+            qDebug() << "params required";
+            return false;
+        } else {
+            subDir = params[0];
+        }
+        this->symbol = symbol;
+
+        //test connection
+        //set uri and send request
+        string uri = url + subDir + "prices?tickers="+symbol +"&token="+token;
+        QNetworkRequest request((QUrl(QString::fromStdString(uri))));
+        request.setRawHeader("Content-Type", "application/json");
+        manager->get(request);
+
+        //Handle data response
+        waitForData();
+        if (dr) {
+            if (rep.size() > 30) {
+                qDebug() << "Token name set to " + QString::fromStdString(symbol);
+                return true;
+            } else {
+                qDebug() << "Bad token name/dir";
+                return false;
+            }
+        } else {
+            qDebug() << "Connection failed";
+            return false;
+        }
     }
 
     void setSampleFreq(int min) override {
@@ -112,14 +136,7 @@ private:
             QNetworkRequest request((QUrl(QString::fromStdString(uri))));
             request.setRawHeader("Content-Type", "application/json");
             manager->get(request);
-
-            //Handle data response
-            int retries = 0;
-            while (!dr && retries < 100) {
-                QCoreApplication::processEvents();
-                usleep(50000);
-                retries++;
-            }
+            waitForData();
             if (dr) {
                 parseData();
             } else {
@@ -140,9 +157,18 @@ private:
         //TODO codes to parse data into dataframe
     }
 
+    void waitForData() {
+        int retries = 0;
+        while (!dr && retries < 100) {
+            QCoreApplication::processEvents();
+            usleep(50000);
+            retries++;
+        }
+    }
+
     atomic<bool> dr; //data ready, set on when fetched, set off when accessed
     atomic<int> historyLen, sampleFreq;
-    string token, url  = "https://api.tiingo.com/", subDir, symbol;
+    string token, url  = "https://api.tiingo.com/", subDir = "", symbol;
     QNetworkAccessManager *manager;
     QByteArray rep;
     std::thread* tango;
