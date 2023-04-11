@@ -36,4 +36,5 @@ public:
     virtual void startLive() = 0;
 public slots:
     virtual void readReply(QNetworkReply* reply) {};
+
 };
