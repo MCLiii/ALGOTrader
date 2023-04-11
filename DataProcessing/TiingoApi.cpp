@@ -59,6 +59,7 @@ public:
         //Handle data response
         waitForData();
         if (dr) {
+            dr= false;
             if (rep.size() > 30) {
                 qDebug() << "Token name set to " + QString::fromStdString(symbol);
                 return true;
@@ -140,14 +141,15 @@ private:
             //set uri and send request
             string uri = url + subDir + "prices?tickers="+symbol + "&startDate="+startT+"&endDate="+endT+"&resampleFreq="+
                     to_string(sampleFreq)+"min"+"&token="+token;
+            qDebug() <<"uri: "<< QString::fromStdString(uri);
             QNetworkRequest request((QUrl(QString::fromStdString(uri))));
             request.setRawHeader("Content-Type", "application/json");
-            //man->get(request);
-            qDebug() << QString::fromStdString(startT) + "--" + QString::fromStdString(endT);
+            man->get(request);
+            qDebug() << "Query Date interval: "<< QString::fromStdString(startT) + "--" + QString::fromStdString(endT);
             QCoreApplication::processEvents();
             waitForData();
             if (dr) {
-                //parseData();
+                parseData();
             } else {
                 qDebug() << "Connection failed";
             }
@@ -164,7 +166,11 @@ private:
 
     void parseData() {
         //TODO codes to parse data into dataframe
-        qDebug() << QString::fromStdString(rep.toStdString());
+        QJsonDocument json =  QJsonDocument::fromJson(rep);
+        QJsonObject field = json.array().at(0).toObject();
+        QJsonArray priceJsonArr = field["priceData"].toArray();
+        qDebug()<<priceJsonArr;
+        dr = false;
     }
 
     void waitForData() {

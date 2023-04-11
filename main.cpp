@@ -1,6 +1,6 @@
-#include <iostream>
+/*#include "DataProcessing/test.cpp"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+    testTingo();
 }
+*/
