@@ -7,7 +7,7 @@
 
 int main(int argc, char *argv[]){
     QCoreApplication a(argc, argv);
-    DataSource* ds = new TiingoApi("your-api-key-here");
+    DataSource* ds = new TiingoApi("apikey");
     ds->setTickerSymbol("btcusd",{"tiingo/crypto/"});
     ds->setHistoryLen(300);
     ds->setSampleFreq(5);

@@ -82,7 +82,7 @@ public:
     }
 
     bool dataReady() override {
-        return dr;
+        return dfr;
     }
 
     TDF* getDataFrame() override {
@@ -183,6 +183,7 @@ private:
     }
 
     atomic<bool> dr; //data ready, set on when fetched, set off when accessed
+    atomic<bool> dfr; //Dataframe ready
     atomic<int> historyLen, sampleFreq;
     string token, url  = "https://api.tiingo.com/", subDir = "", symbol;
     QNetworkAccessManager *manager;

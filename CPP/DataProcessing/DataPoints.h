@@ -9,8 +9,12 @@
 class DataPoints {
     long long openTime;
     long long closeTime;
-    int open;
-    int close;
+    double high;
+    double low;
+    double close;
+    double trades;
+    double volume;
+    double volumeNotional;
 };
 
 
