@@ -1,5 +1,7 @@
 # ALGOTrader
 
-- under construction
-- currenly implemented:
-Tiingo API access
+An automated algorithmic trading platform allowing easy strategy development.
+
+# Current API Support
+
+Tiingo
